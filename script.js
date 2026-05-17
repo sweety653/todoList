@@ -73,7 +73,8 @@ function renderTasks(task) {
 
   delBtn.addEventListener('click', function() {
     tasks = tasks.filter(t => t !== task);
-    li.remove();
+    li.classList.add('removing');
+    setTimeout(() => li.remove(), 300);
     saveTasks();
     updateCounter();
   });
@@ -105,14 +106,15 @@ form.addEventListener('submit', function(event) {
 
 function updateCounter() {
   const remainingTasks = tasks.filter(t => !t.done).length;
-  count.textContent = `Осталось ${remainingTasks} задач`
+  count.textContent = `Осталось ${remainingTasks} ${declension(remainingTasks)}`;
 }
 
 comp.addEventListener('click', function() {
   const allLi = list.querySelectorAll('li');
   allLi.forEach(li => {
     if (li.classList.contains('completed')) {
-      li.remove();
+      li.classList.add('removing');
+      setTimeout(() => li.remove(), 300);
     }
   });
   tasks = tasks.filter(task => !task.done);
@@ -137,6 +139,24 @@ document.getElementById('filters').addEventListener('click', function(e) {
   e.target.classList.add('active');
   renderAll();
 });
+
+document.getElementById('themeBtn').addEventListener('click', function(e) {
+  document.body.classList.toggle('dark');
+  this.textContent = document.body.classList.contains('dark') ? '☀️' : '🌙';
+  localStorage.setItem('theme', document.body.classList.contains('dark'))
+});
+ 
+
+if (localStorage.getItem('theme') === 'true') {
+  document.body.classList.add('dark');
+}
+
+function declension(n) {
+  if (n % 100 >= 11 && n % 100 <= 19) return 'задач';
+  if (n % 10 === 1) return 'задача';
+  if (n % 10 >= 2 && n % 10 <= 4) return 'задачи';
+  return 'задач';
+}
 
 renderAll();
 updateCounter();
