@@ -39,6 +39,11 @@ button:active {
   transform: translateY(0);  
 }
 
+.Comp {
+  padding: 10px;
+  margin-bottom: 12px;
+}
+
 
 .delete-btn {
   padding: 4px 10px;
@@ -111,6 +116,7 @@ form {
     gap: 8px;
     margin-bottom: 24px;
 }
+
 
 
 .gradient-text {
